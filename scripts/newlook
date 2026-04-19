@@ -13,4 +13,4 @@ wal -n -s -t -e -i "$wall1"
 
 # aplicar colores a dwm
 xrdb -merge ~/.cache/wal/colors-dwm.Xresources
-xdotool key super+F5
+killall -USR1 dwm
