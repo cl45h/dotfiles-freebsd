@@ -4,6 +4,8 @@ Advertencia: Esta es mi configuracion privada en FreeBSD 15. Se recomienda utili
 
 dwm + st + dwmblocks + picom + dunst
 
+Tambien hay algunos scripts utiles para que corran Discord,  vms y algunas cosas mas.
+
 ## Dependencias
 
 | Programa | Uso |
