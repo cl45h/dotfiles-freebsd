@@ -19,4 +19,5 @@ Tambien hay algunos scripts utiles para que corran Discord,  vms y algunas cosas
 | `xrandr` | configuracion de monitores |
 
 
-<img width="1920" height="1073" alt="image" src="https://github.com/user-attachments/assets/58818d0e-84e0-4cab-934d-3541aa78c85b" />
+<img width="1920" height="1073" alt="image" src="https://github.com/user-attachments/assets/83114646-089d-4908-ab6f-320e6c065876" />
+
