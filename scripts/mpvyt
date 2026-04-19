@@ -1,0 +1,8 @@
+#!/bin/sh
+printf "Introduce video: "
+read -r video
+if [ -n "$video" ]; then
+	mpv "$video"
+else
+	echo "no pusiste ningun video"
+fi

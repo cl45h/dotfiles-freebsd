@@ -1,0 +1,16 @@
+#!/bin/sh
+
+wall1=$(find ~/pix/wall/ -type f \( -name "*.jpg" -o -name "*.png" \) | shuf -n 1)
+wall2=$(find ~/pix/wall/ -type f \( -name "*.jpg" -o -name "*.png" \) | shuf -n 1)
+
+# set different wallpapers per monitor
+xwallpaper --output DP-0 --zoom "$wall1" --output DP-2 --zoom "$wall2"
+
+# generate color scheme from monitor 1 wallpaper
+wal -c
+wal -n -s -t -e -i "$wall1"
+
+
+# aplicar colores a dwm
+xrdb -merge ~/.cache/wal/colors-dwm.Xresources
+xdotool key super+F5

@@ -1,0 +1,6 @@
+#!/bin/sh
+
+wall=$(find ~/pix/wall/ -type f \( -name "*.jpg" -o -name "*.png" \) | shuf -n 1)
+
+# set wallpaper only on monitor 2
+xwallpaper --output DP-2 --zoom "$wall"

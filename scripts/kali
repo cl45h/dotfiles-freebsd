@@ -1,0 +1,43 @@
+#!/bin/sh
+
+VM="kali"
+DISK="/vm/kali.raw"
+CPUS=16
+MEM="8G"
+TAP="tap0"
+MAC="00:14:22:33:44:55"
+VNC="0.0.0.0:5900"
+KALI_IP="192.168.1.100"
+DEVMAP="/tmp/kali-device.map"
+
+if [ ! -f "$DISK" ]; then
+    echo "Error: no existe $DISK"
+    exit 1
+fi
+
+# Limpiar VM previa si quedó colgada
+doas bhyvectl --destroy --vm="$VM" 2>/dev/null
+
+echo "Booteando $VM..."
+doas sysctl kern.consmute=1 >/dev/null 2>&1
+
+# Cargar kernel con grub-bhyve (MBR boot)
+echo "(hd0) $DISK" > "$DEVMAP"
+doas grub-bhyve -m "$DEVMAP" -r hd0,msdos1 -d /boot/grub -M "$MEM" "$VM" < /dev/null >/dev/null 2>&1
+
+doas bhyve \
+    -c "$CPUS" \
+    -m "$MEM" \
+    -H -w \
+    -s 0,hostbridge \
+    -s 1,lpc \
+    -s 2,virtio-blk,"$DISK" \
+    -s 3,virtio-net,"$TAP",mac="$MAC" \
+    -s 4,fbuf,tcp="$VNC",w=1920,h=1080 \
+    -s 5,xhci,tablet \
+    "$VM" >/dev/null 2>&1 &
+
+# Esperar a que Kali levante
+echo "Esperando a que Kali levante..."
+while ! nc -z -w 1 "$KALI_IP" 3389 2>/dev/null; do sleep 2; done
+echo "Kali lista. Conectate con: kalir"

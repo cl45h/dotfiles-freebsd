@@ -1,0 +1,37 @@
+#!/bin/sh
+
+# Show network status for FreeBSD
+# 🌐 ethernet up | ❎ ethernet down
+# 📶 wifi connected | 📡 wifi disconnected | ❌ no wifi
+
+# Ethernet: check igc0 or any e* interface
+eth_status=""
+for iface in $(ifconfig -l); do
+    case "$iface" in
+        lo*|wlan*|tun*|pflog*) continue ;;
+    esac
+    if ifconfig "$iface" 2>/dev/null | grep -q "status: active"; then
+        eth_status="🌐"
+        break
+    fi
+done
+[ -z "$eth_status" ] && eth_status="❎"
+
+# WiFi: check wlan0
+wifi_status=""
+if ifconfig wlan0 >/dev/null 2>&1; then
+    if ifconfig wlan0 | grep -q "status: associated"; then
+        ssid=$(ifconfig wlan0 | awk '/ssid/{print $2}')
+        wifi_status="📶 $ssid "
+    else
+        wifi_status="📡 "
+    fi
+fi
+
+# VPN
+vpn=""
+if ifconfig tun0 >/dev/null 2>&1; then
+    vpn="🔒"
+fi
+
+printf "%s%s%s\n" "$wifi_status" "$eth_status" "$vpn"

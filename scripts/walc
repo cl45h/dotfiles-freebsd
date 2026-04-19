@@ -1,0 +1,18 @@
+#!/bin/sh
+
+monitor1="DP-0"
+
+wall=$(zenity --file-selection \
+    --title="Elegí tu wallpaper" \
+    --file-filter="*.jpg *.png *.jpeg" \
+    --filename="$HOME/pix/wall/")
+
+[ -z "$wall" ] && exit 1
+
+xwallpaper --output "$monitor1" --zoom "$wall"
+wal -c
+wal -n -i "$wall"
+
+# aplicar colores a dwm
+xrdb -merge ~/.cache/wal/colors-dwm.Xresources
+xdotool key super+F5

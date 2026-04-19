@@ -1,0 +1,14 @@
+#!/bin/sh
+. "$HOME/.cache/wal/colors.sh" 2>/dev/null
+
+WARNING_LEVEL=80
+
+CPU_TEMP="$(sysctl -n dev.cpu.0.temperature 2>/dev/null | sed 's/C$//' | awk '{printf "%d", $1}')"
+
+if [ -z "$CPU_TEMP" ]; then
+    printf "^c${color5}^🌡 N/A^d^"
+elif [ "$CPU_TEMP" -ge "$WARNING_LEVEL" ]; then
+    printf "^c${color9}^🌡 %s°C^d^" "$CPU_TEMP"
+else
+    printf "^c${color5}^🌡 %s°C^d^" "$CPU_TEMP"
+fi

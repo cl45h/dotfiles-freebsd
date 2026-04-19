@@ -1,0 +1,12 @@
+#!/bin/sh
+
+dev="/dev/ada3p2"
+mnt="/mnt/vm"
+
+if mount | grep -q "$mnt"; then
+	doas umount "$mnt" && echo "Desmontado $mnt"
+else
+	kldstat | grep -q fusefs || doas kldload fusefs
+	[ -d "$mnt" ] || doas mkdir -p "$mnt"
+	doas ntfs-3g "$dev" "$mnt" && echo "Montado $dev en $mnt"
+fi

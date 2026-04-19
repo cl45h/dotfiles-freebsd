@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [ -z "$1" ]; then
+    echo "Uso: vmkill <kali|windows>"
+    exit 1
+fi
+
+doas bhyvectl --destroy --vm="$1" 2>/dev/null && echo "$1 destruida" || echo "$1 no estaba corriendo"

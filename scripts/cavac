@@ -1,0 +1,112 @@
+#!/bin/sh
+
+CONFIG_FILE="$HOME/.config/cava/config"
+TEMP_FILE="$HOME/.config/cava/config.tmp"
+
+show_menu() {
+    echo "Selecciona un esquema de colores para Cava:"
+    echo " 1) Cyberpunk          16) Bosque"
+    echo " 2) Matrix             17) Dulce Algodon"
+    echo " 3) Glitch             18) Celta"
+    echo " 4) Nord               19) Vikingo"
+    echo " 5) RGB Madness        20) Dark Side"
+    echo " 6) Neon Psicodelico   21) Caos Total"
+    echo " 7) Pastel Suave       22) Infierno"
+    echo " 8) Fuego              23) Plataforma Hacker"
+    echo " 9) Hielo              24) Glitch Extremo"
+    echo "10) Desierto Pastel    25) Militar"
+    echo "11) Desierto Intenso   26) Personalizado"
+    echo "12) Otono              27) Random"
+    echo "13) Galaxia            28) Argentina"
+    echo "14) Amanecer           29) Mexico"
+    echo "15) Oceano             30) Alemania"
+    printf "Ingresa el numero: "
+}
+
+get_colors() {
+    case $1 in
+        1)  echo "#FF00FF #AA00AA #550055 #222222 #000000 #000000 #000000 #000000" ;;
+        2)  echo "#00FF00 #00CC00 #009900 #444444 #111111 #111111 #111111 #111111" ;;
+        3)  echo "#FF69B4 #FFD700 #4B0082 #7FFF00 #DC143C #20B2AA #BA55D3 #00CED1" ;;
+        4)  echo "#8FBCBB #88C0D0 #81A1C1 #5E81AC #D08770 #EBCB8B #A3BE8C #B48EAD" ;;
+        5)  echo "#FF0000 #FF7F00 #FFFF00 #00FF00 #0000FF #8B00FF #4B0082 #9400D3" ;;
+        6)  echo "#FF007F #FFD700 #00FFFF #8B00FF #00FF00 #FF4500 #1E90FF #FF1493" ;;
+        7)  echo "#FFB6C1 #FFDAB9 #E6E6FA #98FB98 #87CEEB #F4A460 #C0C0C0 #DDA0DD" ;;
+        8)  echo "#FF4500 #FF8C00 #FFD700 #FFA500 #FF6347 #FF0000 #800000 #800000" ;;
+        9)  echo "#E0FFFF #AFEEEE #ADD8E6 #87CEEB #4682B4 #5F9EA0 #008B8B #2F4F4F" ;;
+        10) echo "#C2B280 #D9CBA0 #E5D8B0 #F2E5C0 #E4C59E #C49A6C #A88B68 #8B6F4E" ;;
+        11) echo "#E1AD6D #C19A6B #A67B5B #8B5A2B #D2B48C #DEB887 #F4A460 #FF8C00" ;;
+        12) echo "#8B4513 #A0522D #D2691E #CD853F #F4A460 #DAA520 #FF8C00 #B8860B" ;;
+        13) echo "#1B0030 #4B0082 #663399 #800080 #9370DB #E6E6FA #ADD8E6 #87CEFA" ;;
+        14) echo "#FF4500 #FF6347 #FF7F50 #FFA07A #FFD700 #FFFF00 #F0E68C #BDB76B" ;;
+        15) echo "#002F6C #004080 #006699 #0088AA #00AADD #00CCFF #66DDEE #99EEFF" ;;
+        16) echo "#013220 #025920 #046A38 #36802D #6B8E23 #A2CD5A #BDB76B #8FBC8F" ;;
+        17) echo "#FFB6C1 #FF69B4 #FF1493 #FFD700 #FFDAA5 #E6E6FA #D8BFD8 #DDA0DD" ;;
+        18) echo "#006400 #228B22 #32CD32 #8B4513 #FFD700 #556B2F #A0522D #B8860B" ;;
+        19) echo "#0F1C2E #1B365D #2E5977 #708090 #B0C4DE #C0C0C0 #8B0000 #5D4037" ;;
+        20) echo "#000000 #220000 #440000 #660000 #880000 #BB0000 #DD0000 #FF0000" ;;
+        21) echo "#200000 #440000 #880000 #AA0000 #550000 #330000 #110000 #000000" ;;
+        22) echo "#8B0000 #B22222 #DC143C #FF0000 #FF4500 #FF6347 #FFA500 #FFD700" ;;
+        23) echo "#00FF00 #00AA00 #008800 #005500 #003300 #001100 #000000 #000000" ;;
+        24) echo "#FF00FF #FFFF00 #00FFFF #FF4500 #8A2BE2 #7FFF00 #DC143C #20B2AA" ;;
+        25) echo "#4B5320 #5C5C3D #6B8E23 #556B2F #8B4513 #3B3B3B #2F4F4F #000000" ;;
+        27) # Random
+            c=""
+            i=0
+            while [ $i -lt 8 ]; do
+                r=$(jot -r 1 0 16777215)
+                c="$c $(printf '#%06X' "$r")"
+                i=$((i + 1))
+            done
+            echo "$c"
+            ;;
+        28) echo "#74ACDF #74ACDF #FFFFFF #FFD700 #FFD700 #FFFFFF #74ACDF #74ACDF" ;;
+        29) echo "#006341 #006341 #FFFFFF #FFFFFF #FFFFFF #FFFFFF #C8102E #C8102E" ;;
+        30) echo "#000000 #000000 #DD0000 #DD0000 #FFCC00 #FFCC00 #FFCC00 #FFCC00" ;;
+        *)  return 1 ;;
+    esac
+}
+
+show_menu
+read -r choice
+
+if [ "$choice" = "26" ]; then
+    printf "Color 1: "; read -r c1
+    printf "Color 2: "; read -r c2
+    printf "Color 3: "; read -r c3
+    printf "Color 4: "; read -r c4
+    printf "Color 5: "; read -r c5
+    printf "Color 6: "; read -r c6
+    printf "Color 7: "; read -r c7
+    printf "Color 8: "; read -r c8
+else
+    colors=$(get_colors "$choice")
+    if [ -z "$colors" ]; then
+        echo "Opcion invalida"
+        exit 1
+    fi
+    set -- $colors
+    c1=$1 c2=$2 c3=$3 c4=$4 c5=$5 c6=$6 c7=$7 c8=$8
+fi
+
+awk -v c1="$c1" -v c2="$c2" -v c3="$c3" -v c4="$c4" \
+    -v c5="$c5" -v c6="$c6" -v c7="$c7" -v c8="$c8" '
+BEGIN { inside=0 }
+{
+    if ($0 ~ /^\[color\]/) { inside=1; print; next }
+    if (inside && $0 ~ /^\[/) { inside=0 }
+
+    if (inside) {
+        if ($0 ~ /^gradient_color_1/) print "gradient_color_1 = \"" c1 "\""
+        else if ($0 ~ /^gradient_color_2/) print "gradient_color_2 = \"" c2 "\""
+        else if ($0 ~ /^gradient_color_3/) print "gradient_color_3 = \"" c3 "\""
+        else if ($0 ~ /^gradient_color_4/) print "gradient_color_4 = \"" c4 "\""
+        else if ($0 ~ /^gradient_color_5/) print "gradient_color_5 = \"" c5 "\""
+        else if ($0 ~ /^gradient_color_6/) print "gradient_color_6 = \"" c6 "\""
+        else if ($0 ~ /^gradient_color_7/) print "gradient_color_7 = \"" c7 "\""
+        else if ($0 ~ /^gradient_color_8/) print "gradient_color_8 = \"" c8 "\""
+        else print
+    } else print
+}' "$CONFIG_FILE" > "$TEMP_FILE" && mv "$TEMP_FILE" "$CONFIG_FILE"
+
+killall -USR1 cava 2>/dev/null || cava

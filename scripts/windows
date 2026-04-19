@@ -1,0 +1,45 @@
+#!/bin/sh
+
+VM="windows"
+DISK="/vm/windows10.raw"
+CPUS=8
+MEM="8G"
+TAP="tap1"
+MAC="00:14:22:33:44:77"
+VNC="0.0.0.0:5901"
+UEFI="/usr/local/share/uefi-firmware/BHYVE_UEFI.fd"
+WIN_IP="192.168.1.101"
+
+if [ ! -f "$DISK" ]; then
+    echo "Error: no existe $DISK"
+    exit 1
+fi
+
+# Limpiar VM previa si quedó colgada
+doas bhyvectl --destroy --vm="$VM" 2>/dev/null
+
+echo "Booteando $VM..."
+doas bhyve \
+    -c "$CPUS" \
+    -m "$MEM" \
+    -H \
+    -s 0,hostbridge \
+    -s 1,lpc \
+    -s 2,ahci-hd,"$DISK" \
+    -s 3,virtio-net,"$TAP",mac="$MAC" \
+    -s 4,fbuf,tcp="$VNC",w=1920,h=1080 \
+    -s 5,xhci,tablet \
+    -l bootrom,"$UEFI" \
+    "$VM" &
+
+BHYVE_PID=$!
+
+# Esperar a que Windows levante y conectar por RDP
+echo "Esperando a que Windows levante..."
+sleep 40
+echo "Conectando por RDP..."
+xfreerdp3 /v:"$WIN_IP" /u:user /size:1920x1080 +clipboard /dynamic-resolution
+
+# Cuando se cierra RDP, apagar la VM
+wait $BHYVE_PID 2>/dev/null
+doas bhyvectl --destroy --vm="$VM"

@@ -1,0 +1,22 @@
+#!/bin/sh
+. "$HOME/.cache/wal/colors.sh" 2>/dev/null
+
+ICON_ON=''
+ICON_MUTED=''
+
+curStatus=$(pactl get-sink-mute @DEFAULT_SINK@ 2>/dev/null)
+volume=$(pactl get-sink-volume @DEFAULT_SINK@ 2>/dev/null | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,' | head -n 1)
+
+if [ -z "$volume" ]; then
+    volume=$(mixer vol 2>/dev/null | awk -F'[=:]' '/volume/{printf "%d", $2 * 100}')
+    mute=$(mixer vol 2>/dev/null | awk -F'=' '/mute/{print $2}')
+    [ "$mute" = "on" ] && curStatus="Mute: yes" || curStatus=""
+fi
+
+if [ "${curStatus}" = 'Mute: yes' ]; then
+    printf "${ICON_MUTED}^c${color8}^  ${volume}%%^d^"
+elif [ "$volume" -ge 80 ] 2>/dev/null; then
+    printf "${ICON_ON}^c${color9}^  ${volume}%%^d^"
+else
+    printf "${ICON_ON}^c${color6}^  ${volume}%%^d^"
+fi

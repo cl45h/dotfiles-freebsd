@@ -1,0 +1,67 @@
+[global]
+    monitor = 0
+    follow = none
+    width = 220
+    height = 80
+    origin = top-right
+    alignment = "left"
+    vertical_alignment = "center"
+    ellipsize = "middle"
+    offset = "20x20"
+    padding = 15
+    horizontal_padding = 15
+    text_icon_padding = 15
+    icon_position = "left"
+    min_icon_size = 24
+    max_icon_size = 26
+    progress_bar = true
+    progress_bar_height = 17
+    progress_bar_frame_width = 1
+    progress_bar_min_width = 150
+    progress_bar_max_width = 400
+    separator_height = 2
+    frame_width = 0
+    corner_radius = 0
+    transparency = 25
+    gap_size = 8
+    line_height = 0
+    notification_limit = 0
+    idle_threshold = 120
+    history_length = 20
+    show_age_threshold = 60
+    markup = "full"
+    font = "JetBrains Mono 12"
+    word_wrap = "yes"
+    sort = "yes"
+    shrink = "no"
+    indicate_hidden = "yes"
+    sticky_history = "yes"
+    ignore_newline = "no"
+    show_indicators = "no"
+    stack_duplicates = true
+    always_run_script = true
+    hide_duplicate_count = false
+    ignore_dbusclose = false
+    force_xwayland = false
+    force_xinerama = false
+    mouse_left_click = "do_action"
+    mouse_middle_click = "close_all"
+    mouse_right_click = "close_current"
+
+[urgency_low]
+    frame_color = "#00ff00"
+    background = "#001100AA"
+    foreground = "#33ff33"
+
+[urgency_normal]
+    frame_color = "#00ff00"
+    background = "#001100AA"
+    foreground = "#33ff33"
+
+[urgency_critical]
+    frame_color = "#ff0000"
+    background = "#330000AA"
+    foreground = "#ffcc00"
+
+[experimental]
+    per_monitor_dpi = false
