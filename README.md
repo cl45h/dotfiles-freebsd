@@ -6,7 +6,6 @@ dwm + st + dwmblocks + picom + dunst
 
 Tambien hay algunos scripts utiles para que corran Discord, vms y algunas cosas mas.
 
-<img width="1920" height="1073" alt="image" src="https://github.com/user-attachments/assets/58818d0e-84e0-4cab-934d-3541aa78c85b" />
 
 ## Wallpaper
 
